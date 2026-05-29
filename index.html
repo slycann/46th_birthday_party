@@ -396,6 +396,12 @@
 
         if (!res.ok) throw new Error('Formspree error');
 
+        fetch('https://ntfy.sh/sly_46th_bday', {
+          method: 'POST',
+          body: `New RSVP: ${name}`,
+          headers: { 'Title': '🎉 New RSVP!', 'Priority': 'default' }
+        });
+
         showMessage("You're on the list! See you there 🎉", 'success');
         btn.textContent = 'Sent!';
         setTimeout(closeModal, 2200);
