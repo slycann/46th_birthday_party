@@ -16,41 +16,22 @@
 
     /* ── Hero ── */
     .hero {
-      position: relative;
-      width: 100%;
-      background: #f4a261;
-    }
-
-    .hero img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      background: #e76f51;
+      padding: 56px 24px 48px;
       text-align: center;
-      padding: 24px;
     }
 
-    .hero-overlay h1 {
+    .hero h1 {
       font-size: clamp(2rem, 6vw, 3.6rem);
       color: #fff;
-      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
       line-height: 1.15;
     }
 
-    .hero-overlay .subtitle {
+    .hero .subtitle {
       margin-top: 10px;
       font-size: clamp(1rem, 3vw, 1.4rem);
       color: #ffd166;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
       letter-spacing: 0.03em;
     }
 
@@ -286,11 +267,8 @@
 
   <!-- Hero -->
   <div class="hero">
-    <img src="Final_Image_46th.png" alt="Sly's Birthday Party" />
-    <div class="hero-overlay">
-      <h1>🎉 Sly's 46th Birthday!</h1>
-      <div class="subtitle">Come celebrate at the park</div>
-    </div>
+    <h1>🎉 Sly's 46th Birthday!</h1>
+    <div class="subtitle">Come celebrate at the park</div>
   </div>
 
   <!-- Main content -->
