@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sly's 46th Birthday!</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Georgia', serif;
+      background: #fff8f0;
+      color: #2d2d2d;
+      min-height: 100vh;
+    }
+
+    /* ── Hero ── */
+    .hero {
+      position: relative;
+      width: 100%;
+      max-height: 480px;
+      overflow: hidden;
+      background: #f4a261;
+    }
+
+    .hero img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+      display: block;
+    }
+
+    .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.55) 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 24px;
+    }
+
+    .hero-overlay h1 {
+      font-size: clamp(2rem, 6vw, 3.6rem);
+      color: #fff;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+      line-height: 1.15;
+    }
+
+    .hero-overlay .subtitle {
+      margin-top: 10px;
+      font-size: clamp(1rem, 3vw, 1.4rem);
+      color: #ffd166;
+      text-shadow: 0 1px 4px rgba(0,0,0,0.4);
+      letter-spacing: 0.03em;
+    }
+
+    /* ── Content ── */
+    .container {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 40px 20px 80px;
+    }
+
+    /* ── Info cards ── */
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 22px 20px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      text-align: center;
+    }
+
+    .card .icon { font-size: 2rem; margin-bottom: 8px; }
+    .card h3 { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #999; margin-bottom: 6px; }
+    .card p { font-size: 1rem; font-weight: 600; color: #2d2d2d; line-height: 1.4; }
+    .card a { color: #e76f51; text-decoration: none; }
+    .card a:hover { text-decoration: underline; }
+
+    /* ── Section heading ── */
+    .section-title {
+      font-size: 1.4rem;
+      color: #e76f51;
+      margin-bottom: 16px;
+      border-bottom: 2px solid #f4a261;
+      padding-bottom: 6px;
+    }
+
+    /* ── Food section ── */
+    .food-note {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 22px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      margin-bottom: 36px;
+    }
+
+    .food-note p { font-size: 1rem; line-height: 1.7; margin-bottom: 10px; }
+    .food-note p:last-child { margin-bottom: 0; }
+
+    .food-ideas {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .chip {
+      background: #ffecd2;
+      border-radius: 999px;
+      padding: 5px 14px;
+      font-size: 0.9rem;
+      color: #c9430a;
+      font-weight: 500;
+    }
+
+    /* ── Bring list ── */
+    .bring-list {
+      background: #fff;
+      border-radius: 16px;
+      padding: 24px 22px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07);
+      margin-bottom: 44px;
+    }
+
+    .bring-list ul { list-style: none; padding: 0; }
+
+    .bring-list li {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      padding: 10px 0;
+      font-size: 1rem;
+      border-bottom: 1px solid #f5f0eb;
+      line-height: 1.5;
+    }
+
+    .bring-list li:last-child { border-bottom: none; }
+    .bring-list .num {
+      background: #f4a261;
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.85rem;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* ── RSVP ── */
+    .rsvp-section {
+      text-align: center;
+    }
+
+    .rsvp-section p {
+      font-size: 1.05rem;
+      color: #666;
+      margin-bottom: 22px;
+    }
+
+    .btn-rsvp {
+      background: #e76f51;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 16px 42px;
+      font-size: 1.15rem;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      box-shadow: 0 4px 16px rgba(231,111,81,0.35);
+      transition: background 0.2s, transform 0.1s;
+    }
+
+    .btn-rsvp:hover { background: #c9430a; transform: translateY(-2px); }
+    .btn-rsvp:active { transform: translateY(0); }
+
+    /* ── Modal ── */
+    .modal-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .modal {
+      background: #fff;
+      border-radius: 20px;
+      padding: 36px 32px;
+      max-width: 400px;
+      width: 100%;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.2);
+      text-align: center;
+      animation: popIn 0.2s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.9); opacity: 0; }
+      to   { transform: scale(1);   opacity: 1; }
+    }
+
+    .modal h2 { font-size: 1.5rem; margin-bottom: 8px; }
+    .modal p  { color: #777; font-size: 0.95rem; margin-bottom: 22px; }
+
+    .modal input[type="text"] {
+      width: 100%;
+      border: 2px solid #e0d5cc;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 1rem;
+      font-family: inherit;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-bottom: 16px;
+    }
+
+    .modal input[type="text"]:focus { border-color: #f4a261; }
+
+    .modal-buttons { display: flex; gap: 10px; justify-content: center; }
+
+    .btn-submit {
+      background: #e76f51;
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 30px;
+      font-size: 1rem;
+      font-family: inherit;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-submit:hover { background: #c9430a; }
+    .btn-submit:disabled { background: #ccc; cursor: default; }
+
+    .btn-cancel {
+      background: transparent;
+      color: #999;
+      border: 2px solid #e0d5cc;
+      border-radius: 999px;
+      padding: 12px 24px;
+      font-size: 1rem;
+      font-family: inherit;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .btn-cancel:hover { border-color: #bbb; }
+
+    .modal-message {
+      margin-top: 14px;
+      font-size: 0.95rem;
+      min-height: 20px;
+    }
+
+    .modal-message.success { color: #2a9d4a; font-weight: 600; }
+    .modal-message.error   { color: #e74c3c; }
+
+    /* ── Footer ── */
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-size: 0.85rem;
+      color: #bbb;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Hero -->
+  <div class="hero">
+    <img src="Final_Image_46th.png" alt="Sly's Birthday Party" />
+    <div class="hero-overlay">
+      <h1>🎉 Sly's 46th Birthday!</h1>
+      <div class="subtitle">Come celebrate at the park</div>
+    </div>
+  </div>
+
+  <!-- Main content -->
+  <div class="container">
+
+    <!-- Info cards -->
+    <div class="info-grid">
+      <div class="card">
+        <div class="icon">📅</div>
+        <h3>When</h3>
+        <p>Wednesday, June 3<br/>5:30 pm – 8:30 pm</p>
+      </div>
+      <div class="card">
+        <div class="icon">📍</div>
+        <h3>Where</h3>
+        <p>
+          South Lynnwood Park<br/>
+          <a href="https://maps.google.com/?q=20915+61st+Ave+W,+Lynnwood,+WA+98036" target="_blank">
+            20915 61st Ave W<br/>Lynnwood, WA 98036
+          </a>
+        </p>
+      </div>
+      <div class="card">
+        <div class="icon">🍽️</div>
+        <h3>Food</h3>
+        <p>Potluck style<br/>Dinner served at 6:30 pm</p>
+      </div>
+    </div>
+
+    <!-- Food section -->
+    <div class="food-note">
+      <h2 class="section-title">🍕 Potluck Details</h2>
+      <p>Bring a <strong>takeout dish to share</strong> with the group — something that feeds a few people works great. We'll have all the food there by 6:30 pm and dive in together.</p>
+      <p>Drinks and snacks are covered — just bring a dish!</p>
+      <p style="color:#999; font-size:0.9rem;">Ideas:</p>
+      <div class="food-ideas">
+        <span class="chip">🍕 Pizza</span>
+        <span class="chip">🍜 Thai</span>
+        <span class="chip">🌮 Tacos</span>
+        <span class="chip">🥩 BBQ</span>
+        <span class="chip">🍗 Chicken from Albertsons</span>
+        <span class="chip">🍔 Dick's</span>
+      </div>
+    </div>
+
+    <!-- What to bring -->
+    <div class="bring-list">
+      <h2 class="section-title">🎒 What to Bring</h2>
+      <ul>
+        <li>
+          <span class="num">1</span>
+          <span>A <strong>takeout dish to share</strong> — feed the crew!</span>
+        </li>
+        <li>
+          <span class="num">2</span>
+          <span>A <strong>foldable chair or blanket</strong> to hang out on</span>
+        </li>
+        <li>
+          <span class="num">3</span>
+          <span><strong>Kids' bikes or scooters</strong> — we'll have lawn games &amp; activities too</span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- RSVP -->
+    <div class="rsvp-section">
+      <p>Let us know you're coming so we can plan!</p>
+      <button class="btn-rsvp" onclick="openModal()">We're Coming! 🙌</button>
+    </div>
+
+  </div>
+
+  <footer>See you at the park! 🌳</footer>
+
+  <!-- RSVP Modal -->
+  <div class="modal-backdrop" id="modalBackdrop" onclick="handleBackdropClick(event)">
+    <div class="modal">
+      <h2>Woohoo! 🎉</h2>
+      <p>Who's coming? Enter your name (or your family's name) below.</p>
+      <input type="text" id="rsvpName" placeholder="e.g. The Smiths" maxlength="80" onkeydown="if(event.key==='Enter') submitRSVP()" />
+      <div class="modal-buttons">
+        <button class="btn-cancel" onclick="closeModal()">Never mind</button>
+        <button class="btn-submit" id="submitBtn" onclick="submitRSVP()">Submit</button>
+      </div>
+      <div class="modal-message" id="modalMessage"></div>
+    </div>
+  </div>
+
+  <script>
+    // ── Paste your Formspree endpoint here after signing up at formspree.io ──
+    const FORMSPREE_URL = 'https://formspree.io/f/YOUR_FORM_ID';
+
+    function openModal() {
+      document.getElementById('modalBackdrop').classList.add('open');
+      document.getElementById('rsvpName').value = '';
+      document.getElementById('modalMessage').textContent = '';
+      document.getElementById('modalMessage').className = 'modal-message';
+      document.getElementById('submitBtn').disabled = false;
+      document.getElementById('submitBtn').textContent = 'Submit';
+      setTimeout(() => document.getElementById('rsvpName').focus(), 50);
+    }
+
+    function closeModal() {
+      document.getElementById('modalBackdrop').classList.remove('open');
+    }
+
+    function handleBackdropClick(e) {
+      if (e.target === document.getElementById('modalBackdrop')) closeModal();
+    }
+
+    async function submitRSVP() {
+      const name = document.getElementById('rsvpName').value.trim();
+      if (!name) { showMessage('Please enter a name!', 'error'); return; }
+
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true;
+      btn.textContent = 'Sending…';
+
+      try {
+        const res = await fetch(FORMSPREE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+          body: JSON.stringify({ name })
+        });
+
+        if (!res.ok) throw new Error('Formspree error');
+
+        showMessage("You're on the list! See you there 🎉", 'success');
+        btn.textContent = 'Sent!';
+        setTimeout(closeModal, 2200);
+      } catch (err) {
+        showMessage('Something went wrong. Try again or text us!', 'error');
+        btn.disabled = false;
+        btn.textContent = 'Submit';
+      }
+    }
+
+    function showMessage(msg, type) {
+      const el = document.getElementById('modalMessage');
+      el.textContent = msg;
+      el.className = 'modal-message ' + type;
+    }
+  </script>
+
+</body>
+</html>
